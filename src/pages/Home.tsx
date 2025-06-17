@@ -18,17 +18,18 @@ const Home = () => {
             내 취향의 애니메이션 캐릭터를 찾아보세요.
           </h2>
           <p className="mt-3 text-base text-gray-300">
-            캐릭터의 이름, 특징, 성격 키워드 등으로 검색할 수 있어요.
+            성격, 외모, 작품 속 캐릭터를 탐험해보세요.
           </p>
 
-          {/* 캐릭터 오버레이 이미지 */}
-          <div className="mt-10 flex justify-center gap-4">
-            {randomCharacters.map((char) => (
+          {/* 대표 캐릭터 이미지 */}
+          <div className="mt-10 flex justify-center gap-6">
+            {randomCharacters.slice(0, 5).map((char) => (
               <img
                 key={char.id}
                 src={char.image}
                 alt={char.name}
                 className="w-24 h-32 object-cover rounded-xl border-2 border-white shadow-lg"
+                title={char.name}
               />
             ))}
           </div>
@@ -86,7 +87,11 @@ const Home = () => {
 
       {/* 캐릭터 상세 모달 */}
       {selectedCharacter && (
-        <CharacterModal character={selectedCharacter} onClose={() => setSelectedCharacter(null)} />
+        <CharacterModal
+          character={selectedCharacter}
+          onClose={() => setSelectedCharacter(null)}
+          allCharacters={recommendedCharacters}
+        />
       )}
     </>
   );

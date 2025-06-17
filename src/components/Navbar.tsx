@@ -1,22 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
-  return (
-    <nav className="w-full bg-[#050C36] px-4 py-3 flex items-center justify-between border-b border-white/10">
-      {/* 로고 */}
-      <div className="text-white text-2xl font-bold">AniType</div>
+  const [input, setInput] = useState("");
+  const navigate = useNavigate();
 
-      {/* 검색창 */}
-      <div className="relative w-1/2 max-w-md">
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (trimmed) {
+      navigate(`/search?query=${encodeURIComponent(trimmed)}`);
+      setInput("");
+    }
+  };
+
+  return (
+    <nav className="bg-[#050C36] text-white px-6 py-3 flex items-center justify-between shadow">
+      <h1 className="text-xl font-bold">AniType</h1>
+
+      {/* 🔍 검색창 */}
+      <form onSubmit={handleSubmit} className="flex items-center gap-2">
         <input
           type="text"
-          placeholder="캐릭터 이름으로 검색하세요"
-          className="w-full rounded-lg px-4 py-2 text-black focus:outline-none"
+          placeholder="이름, 특징 등 검색"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="px-3 py-1 rounded text-black w-48 sm:w-64"
         />
-        <button className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500">
-          🔍
+        <button
+          type="submit"
+          className="p-1 text-white hover:text-blue-400"
+        >
+          <Search size={20} />
         </button>
-      </div>
+      </form>
     </nav>
   );
 };
